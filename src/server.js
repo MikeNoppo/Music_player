@@ -3,9 +3,10 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
+require('dotenv').config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -34,7 +35,7 @@ app.get('/api/songs', async (req, res) => {
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        const uploadDir = path.join(__dirname, '../public/songs');
+        const uploadDir = path.join(__dirname, process.env.UPLOAD_PATH || '../public/songs');
         cb(null, uploadDir);
     },
     filename: (req, file, cb) => {
@@ -45,7 +46,7 @@ const storage = multer.diskStorage({
 const upload = multer({ 
     storage: storage, 
     limits: {
-        fileSize: 50 * 1024 * 1024
+        fileSize: (process.env.UPLOAD_LIMIT_MB || 50) * 1024 * 1024
     },
     fileFilter: (req, file, cb) => {
         if(file.mimetype === 'audio/mpeg' || path.extname(file.originalname).toLowerCase() === '.mp3'){
