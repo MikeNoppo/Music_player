@@ -3,158 +3,599 @@ body {
     font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 20px;
-    background-color: #191414; /* Spotify black */
-    color: #FFFFFF; /* White text */
-}
-
-h1 {
-    text-align: center;
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #1DB954; /* Spotify green */
-    margin-bottom: 20px;
-}
-
-h2 {
-    font-size: 1.8rem;
-    font-weight: 600;
+    background: linear-gradient(45deg, #191414, #1DB954);
     color: #FFFFFF;
-    margin-bottom: 10px;
-}
-
-p {
-    font-size: 1rem;
-    color: #B3B3B3; /* Light gray for secondary text */
+    min-height: 100vh;
 }
 
 /* Player Container */
 .player-container {
-    max-width: 600px;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 20px;
+    max-width: 1200px;
     margin: 0 auto;
-    background-color: #282828; /* Dark gray for container */
-    padding: 20px;
+    background: #282828;
+    padding: 0;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    height: 90vh;
+    overflow: hidden;
 }
 
-/* Audio Player */
-audio {
-    width: 100%;
+/* Sidebar */
+.sidebar {
+    background: #121212;
+    padding: 20px;
+    border-radius: 12px 0 0 12px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+    gap: 20px;
+}
+
+/* Search Bar */
+.search-container {
+    position: relative;
     margin-bottom: 20px;
-    background-color: #333;
-    border-radius: 8px;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 12px 40px 12px 16px;
+    background: #282828;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 14px;
+}
+
+.search-container input:focus {
+    outline: none;
+    background: #333;
+}
+
+.search-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #b3b3b3;
 }
 
 /* Playlist */
-ul {
-    list-style-type: none;
-    padding: 0;
+.playlist {
+    flex-grow: 1;
+    overflow-y: auto;
 }
 
-li {
-    padding: 10px;
-    background-color: #333; /* Dark gray for list items */
-    margin-bottom: 5px;
+#playlist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#playlist li {
+    padding: 12px 16px;
+    margin: 4px 0;
     border-radius: 4px;
     cursor: pointer;
-    transition: transform 0.2s, background-color 0.3s;
+    transition: background 0.2s ease;
+    color: #b3b3b3;
 }
 
-li:hover {
-    transform: scale(1.02);
-    background-color: #444; /* Slightly lighter gray on hover */
+#playlist li:hover {
+    background: #282828;
+    color: white;
+}
+
+#playlist li.active {
+    background: #282828;
+    color: #1DB954;
+}
+
+/* Main Content */
+.main-content {
+    padding: 20px;
+    overflow-y: auto;
+    height: 100%;
+}
+
+/* Header */
+h1 {
+    text-align: center;
+    font-size: 2.8rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #1DB954, #4CAF50);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 30px;
+}
+
+/* Now Playing Section */
+.now-playing {
+    background: rgba(30, 30, 30, 0.5);
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+.song-info {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#currentSong {
+    font-size: 1.2em;
+    color: #fff;
+    font-weight: bold;
+}
+
+.time-info {
+    color: #b3b3b3;
+    font-size: 0.9em;
+    margin-top: 8px;
+}
+
+.progress-container {
+    margin: 20px 0;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: #4f4f4f;
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #1DB954;
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+.progress-bar:hover .progress-fill {
+    background: #1ed760;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.controls button {
+    background: transparent;
+    border: none;
+    color: #b3b3b3;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.controls button:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.controls button:active {
+    animation: pressDown 0.2s ease;
+}
+
+#playPauseBtn {
+    background: #1DB954;
+    color: white;
+    font-size: 1.4em;
+}
+
+#playPauseBtn:hover {
+    background: #1ed760;
+    box-shadow: 0 0 15px rgba(29, 185, 84, 0.3);
+}
+
+#playPauseBtn.loading i {
+    animation: spin 1s linear infinite;
 }
 
 /* Upload Form */
 .upload-form {
+    background: rgba(30, 30, 30, 0.5);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
     margin-top: 20px;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
-.upload-form input[type="file"] {
-    margin-bottom: 10px;
-    background-color: #333;
-    color: #FFFFFF;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #1DB954;
+.upload-form h2 {
+    color: #fff;
+    margin-bottom: 20px;
+    font-size: 1.5em;
 }
 
-.upload-form button {
-    padding: 10px 20px;
-    background-color: #1DB954; /* Spotify green */
-    color: #FFFFFF;
-    border: none;
-    border-radius: 25px;
+.upload-area {
+    position: relative;
+    border: 2px dashed #1DB954;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 10px 0;
+    transition: all 0.3s ease;
+    background: rgba(29, 185, 84, 0.05);
     cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.upload-form button:hover {
-    background-color: #1ED760; /* Lighter green on hover */
-}
-
-/* Progress Bar */
-.progress-bar {
-    width: 100%;
-    margin-top: 10px;
-}
-
-.progress-bar input[type="range"] {
-    width: 100%;
-    height: 5px;
-    background: #B3B3B3; /* Light gray for track */
-    border-radius: 5px;
-    outline: none;
-    opacity: 0.7;
-    transition: opacity 0.2s;
-}
-
-.progress-bar input[type="range"]:hover {
-    opacity: 1;
-}
-
-/* Controls */
-.controls {
+    min-height: 150px;
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
 }
 
-.controls button {
-    background-color: #1DB954; /* Spotify green */
-    color: #FFFFFF;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 25px;
+.upload-area:hover {
+    border-color: #1ed760;
+    background: rgba(29, 185, 84, 0.1);
+}
+
+.upload-area input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
-.controls button:hover {
-    background-color: #1ED760; /* Lighter green on hover */
+.upload-content {
+    color: #b3b3b3;
+    max-width: 100%;
+    word-wrap: break-word;
 }
 
-/* Icons */
-.fas {
-    margin-right: 5px;
+.upload-content i {
+    font-size: 3em;
+    color: #1DB954;
+    margin-bottom: 15px;
+}
+
+.upload-content p {
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+
+.file-info {
+    font-size: 0.9em;
+    color: #888;
+}
+
+.upload-btn {
+    background: linear-gradient(45deg, #1DB954, #1ed760);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(29, 185, 84, 0.2);
+    margin-top: 10px;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.upload-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(29, 185, 84, 0.3);
+}
+
+.upload-status {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.upload-status.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.upload-status.loading {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.upload-status.loading::before {
+    content: '';
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #1DB954;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+.upload-status.success {
+    background: rgba(29, 185, 84, 0.2);
+    color: #1DB954;
+    animation: pulse 0.3s ease;
+}
+
+.upload-status.error {
+    background: rgba(255, 69, 58, 0.2);
+    color: #ff453a;
+    animation: pulse 0.3s ease;
+}
+
+/* Drag & Drop Animation */
+.upload-area.dragover {
+    border-color: #1ed760;
+    background: rgba(29, 185, 84, 0.15);
+    transform: scale(1.02);
 }
 
 /* Responsive Design */
-@media (max-width: 600px) {
-    h1 {
-        font-size: 2rem;
-    }
-
-    h2 {
-        font-size: 1.5rem;
-    }
-
+@media (max-width: 768px) {
     .player-container {
+        grid-template-columns: 1fr;
+        height: auto;
+        min-height: 90vh;
+    }
+
+    .sidebar {
+        border-radius: 12px 12px 0 0;
+        max-height: 300px;
+    }
+
+    .main-content {
         padding: 15px;
     }
 
-    .upload-form button {
-        width: 100%;
+    .upload-area {
+        min-height: 120px;
+        padding: 15px;
     }
+
+    .upload-content {
+        font-size: 0.9em;
+    }
+
+    .upload-content i {
+        font-size: 2em;
+    }
+
+    .controls {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .volume-control {
+        position: fixed;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        top: auto;
+    }
+
+    .volume-control::before {
+        left: 50%;
+        top: auto;
+        bottom: -8px;
+        transform: translateX(-50%) rotate(90deg);
+    }
+
+    h1 {
+        font-size: 2.2rem;
+    }
+}
+
+/* Volume Control */
+.volume-wrapper {
+    position: relative;
+}
+
+.volume-control {
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    margin-left: 10px;
+    background: rgba(30, 30, 30, 0.95);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    display: none;
+    width: 120px;
+}
+
+.volume-control.active {
+    display: block;
+}
+
+.volume-control input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    background: #4f4f4f;
+    border-radius: 2px;
+    outline: none;
+}
+
+.volume-control input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: #1DB954;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.volume-control input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    background: #1ed760;
+}
+
+.volume-control::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid rgba(30, 30, 30, 0.95);
+}
+
+/* Perbaikan untuk scroll yang lebih halus */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #282828;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1DB954;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #1ed760;
+}
+
+/* Animasi Rotate untuk icon repeat saja */
+@keyframes rotateRepeat {
+    0% { 
+        transform: rotate(0deg); 
+        color: #b3b3b3;
+    }
+    50% { 
+        color: #1DB954;
+    }
+    100% { 
+        transform: rotate(360deg);
+        color: #1DB954;
+    }
+}
+
+/* Styling Repeat Button */
+.repeat-btn {
+    position: relative;
+    color: #b3b3b3;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.repeat-btn i {
+    /* Animasi hanya diterapkan pada icon */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.repeat-btn.active {
+    color: #1DB954;
+}
+
+.repeat-btn.animate i {
+    /* Animasi rotasi hanya pada icon */
+    animation: rotateRepeat 0.5s ease-in-out;
+}
+
+.repeat-btn.repeat-one {
+    color: #1DB954;
+}
+
+/* Styling untuk angka 1 yang terpisah dari animasi rotasi */
+.repeat-btn.repeat-one::after {
+    content: '1';
+    position: absolute;
+    font-size: 10px;
+    font-weight: bold;
+    background: #1DB954;
+    color: #000;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 0;
+    bottom: 0;
+    border: 2px solid #282828;
+    transition: all 0.3s ease;
+    transform: none !important; /* Memastikan tidak ada transformasi yang diwariskan */
+    animation: popOut 0.5s ease-in-out;
+}
+
+/* Animasi Pop Out untuk angka 1 */
+@keyframes popOut {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.repeat-btn.repeat-one:hover::after {
+    background: #1ed760;
+}
+
+/* Animasi Loading */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes pressDown {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+/* Volume Button Feedback */
+#volumeBtn.active {
+    color: #1DB954;
+    animation: pulse 0.3s ease;
 }
