@@ -1,37 +1,45 @@
-/* Global Styles */
-body {
-    font-family: 'Montserrat', sans-serif;
+/* Reset dan Base Styles */
+* {
     margin: 0;
-    padding: 20px;
-    background: linear-gradient(45deg, #191414, #1DB954);
-    color: #FFFFFF;
-    min-height: 100vh;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Player Container */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: #121212;
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    overflow: hidden;
+}
+
+/* Container Utama */
 .player-container {
     display: grid;
     grid-template-columns: 300px 1fr;
-    gap: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 100vw;
+    height: 100vh;
     background: #282828;
-    padding: 0;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    height: 90vh;
-    overflow: hidden;
 }
 
 /* Sidebar */
 .sidebar {
     background: #121212;
     padding: 20px;
-    border-radius: 12px 0 0 12px;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    gap: 20px;
     overflow-y: auto;
+    border-right: 1px solid #333;
+}
+
+/* Main Content */
+.main-content {
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
     gap: 20px;
 }
 
@@ -83,6 +91,7 @@ body {
     cursor: pointer;
     transition: background 0.2s ease;
     color: #b3b3b3;
+    position: relative;
 }
 
 #playlist li:hover {
@@ -93,13 +102,6 @@ body {
 #playlist li.active {
     background: #282828;
     color: #1DB954;
-}
-
-/* Main Content */
-.main-content {
-    padding: 20px;
-    overflow-y: auto;
-    height: 100%;
 }
 
 /* Header */
@@ -355,21 +357,122 @@ h1 {
     transform: scale(1.02);
 }
 
+/* File Preview Styling */
+.file-preview {
+    background: rgba(29, 185, 84, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    display: none;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+}
+
+.file-preview.show {
+    display: flex;
+}
+
+.file-preview i.fa-music {
+    font-size: 24px;
+    color: #1DB954;
+}
+
+.file-preview .file-name {
+    margin: 0;
+    font-weight: 600;
+    color: #fff;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.file-preview .file-size {
+    margin: 0;
+    color: #b3b3b3;
+    font-size: 0.9em;
+}
+
+.remove-file {
+    background: transparent;
+    border: none;
+    color: #ff453a;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.remove-file:hover {
+    background: rgba(255, 69, 58, 0.1);
+    transform: scale(1.1);
+}
+
+/* Update upload area when file is selected */
+.upload-area.has-file .upload-content {
+    display: none;
+}
+
+.upload-area.has-file .file-preview {
+    display: flex;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .player-container {
         grid-template-columns: 1fr;
-        height: auto;
-        min-height: 90vh;
+        grid-template-rows: 1fr auto;
+        height: 100vh;
     }
 
     .sidebar {
-        border-radius: 12px 12px 0 0;
-        max-height: 300px;
+        position: fixed;
+        left: -100%;
+        top: 0;
+        width: 80%;
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.3s ease;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    /* Hamburger Menu */
+    .menu-toggle {
+        display: block;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1001;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
     }
 
     .main-content {
-        padding: 15px;
+        padding-top: 70px; /* Space for hamburger menu */
+    }
+
+    /* Overlay saat sidebar aktif */
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+
+    .sidebar-overlay.active {
+        display: block;
     }
 
     .upload-area {
@@ -387,16 +490,16 @@ h1 {
 
     .controls {
         flex-wrap: wrap;
+        justify-content: center;
         gap: 10px;
     }
 
     .volume-control {
         position: fixed;
-        bottom: 80px;
+        bottom: 70px;
         left: 50%;
         transform: translateX(-50%);
-        margin: 0;
-        top: auto;
+        width: 200px;
     }
 
     .volume-control::before {
@@ -408,6 +511,73 @@ h1 {
 
     h1 {
         font-size: 2.2rem;
+    }
+
+    #visualizer {
+        height: 80px;
+    }
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 480px) {
+    .now-playing {
+        padding: 15px;
+    }
+
+    .controls {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .volume-control {
+        position: fixed;
+        bottom: 70px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 200px;
+    }
+
+    .upload-form {
+        padding: 15px;
+    }
+
+    .upload-area {
+        padding: 15px;
+    }
+
+    #playlist li {
+        padding: 10px;
+    }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #121212;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1DB954;
+    border-radius: 4px;
+}
+
+/* Additional Mobile Optimizations */
+@media (hover: none) {
+    .delete-btn {
+        opacity: 1;
+        background: rgba(255, 69, 58, 0.1);
+    }
+
+    #playlist li:hover {
+        background: transparent;
+    }
+
+    .controls button:hover {
+        transform: none;
     }
 }
 
@@ -468,24 +638,6 @@ h1 {
     border-top: 8px solid transparent;
     border-bottom: 8px solid transparent;
     border-right: 8px solid rgba(30, 30, 30, 0.95);
-}
-
-/* Perbaikan untuk scroll yang lebih halus */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: #282828;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #1DB954;
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #1ed760;
 }
 
 /* Animasi Rotate untuk icon repeat saja */
@@ -598,4 +750,117 @@ h1 {
 #volumeBtn.active {
     color: #1DB954;
     animation: pulse 0.3s ease;
+}
+
+/* Styling untuk tombol hapus di daftar lagu */
+.delete-btn {
+    background: transparent;
+    border: none;
+    color: #ff453a;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#playlist li:hover .delete-btn {
+    opacity: 1;
+}
+
+/* Audio Visualizer Styling */
+#visualizer {
+    width: 100%;
+    height: 120px;
+    background: rgba(0, 0, 0, 0.2);
+    margin: 20px 0;
+    border-radius: 8px;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: #282828;
+    padding: 25px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transform: scale(0.7);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.modal-content h3 {
+    color: #fff;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+}
+
+.modal-content p {
+    color: #b3b3b3;
+    margin-bottom: 25px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.modal-buttons button {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cancel-btn {
+    background: transparent;
+    color: #fff;
+    border: 1px solid #b3b3b3 !important;
+}
+
+.cancel-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.confirm-btn {
+    background: #ff453a;
+    color: white;
+}
+
+.confirm-btn:hover {
+    background: #ff5b52;
+    transform: scale(1.05);
 }

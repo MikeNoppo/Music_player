@@ -7,6 +7,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Favicon using emoji -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎵</text></svg>">
+    <!-- Alternative favicons for different devices -->
+    <link rel="apple-touch-icon" sizes="180x180" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svgs/solid/music.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svgs/solid/music.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svgs/solid/music.svg">
+    <link rel="mask-icon" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/svgs/solid/music.svg" color="#1DB954">
 </head>
 <body>
     <div class="player-container">
@@ -43,6 +51,9 @@
                     </div>
                 </div>
                 
+                <!-- Tambahkan canvas untuk visualizer -->
+                <canvas id="visualizer"></canvas>
+                
                 <audio id="audioPlayer"></audio>
                 
                 <div class="progress-container">
@@ -74,14 +85,39 @@
                     <input type="file" id="songUpload" accept=".mp3" />
                     <div class="upload-content">
                         <i class="fas fa-cloud-upload-alt"></i>
-                        <p>Drag & drop file MP3 di sini atau klik untuk memilih</p>
+                        <p class="upload-text">Drag & drop file MP3 di sini atau klik untuk memilih</p>
                         <span class="file-info">Maximum file size: 50MB</span>
+                    </div>
+                    <div class="file-preview" style="display: none;">
+                        <i class="fas fa-music"></i>
+                        <p class="file-name"></p>
+                        <p class="file-size"></p>
+                        <button class="remove-file">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
                 </div>
                 <button onclick="uploadSong()" class="upload-btn">
                     <i class="fas fa-upload"></i> Upload Lagu
                 </button>
                 <div id="uploadStatus" class="upload-status"></div>
+            </div>
+        </div>
+    </div>
+
+    <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Popup Konfirmasi Hapus -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal-content">
+            <h3>Konfirmasi Hapus</h3>
+            <p>Apakah Anda yakin ingin menghapus lagu ini?</p>
+            <div class="modal-buttons">
+                <button class="cancel-btn">Batal</button>
+                <button class="confirm-btn">Hapus</button>
             </div>
         </div>
     </div>
